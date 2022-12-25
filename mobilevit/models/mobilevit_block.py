@@ -9,6 +9,7 @@ def mobilevit_block(
     input_layer: layers.Input,
     num_blocks: int,
     projection_dim: int,
+    output_dim: int,
     patch_size: int,
     strides: int = 1,
 ):
@@ -26,9 +27,10 @@ def mobilevit_block(
     Returns:
         output_tensor of the MobileVIT block
     """
+    _,_,_,c = input_layer.shape
     local_features = conv_block(
         input_layer,
-        num_filters=projection_dim,
+        num_filters=c,
         strides=strides,
     )
     local_features = layers.BatchNormalization()(local_features)
@@ -65,7 +67,7 @@ def mobilevit_block(
 
     local_global_features = conv_block(
         local_global_features,
-        num_filters=projection_dim,
+        num_filters=output_dim,
         strides=strides,
     )
 

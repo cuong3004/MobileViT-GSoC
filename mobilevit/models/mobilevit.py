@@ -73,13 +73,14 @@ def get_mobilevit_model(
         input_layer=x,
         num_blocks=configs.num_blocks[0],
         projection_dim=configs.projection_dims[0],
+        output_dim=configs.output_dims[0],
         patch_size=4,
     )
 
     # Second MV2 -> MobileViT block.
     x = inverted_residual_block(
         input_layer=x,
-        expanded_channels=configs.out_channels[6] * configs.expansion_factor,
+        expanded_channels=configs.output_dims[0] * configs.expansion_factor,
         output_channels=configs.out_channels[7],
         strides=2,
         name="inverted_residual_block_6_",
@@ -88,13 +89,14 @@ def get_mobilevit_model(
         input_layer=x,
         num_blocks=configs.num_blocks[1],
         projection_dim=configs.projection_dims[1],
+        output_dim=configs.output_dims[1],
         patch_size=4,
     )
 
     # Third MV2 -> MobileViT block.
     x = inverted_residual_block(
         input_layer=x,
-        expanded_channels=configs.out_channels[8] * configs.expansion_factor,
+        expanded_channels=configs.output_dims[1] * configs.expansion_factor,
         output_channels=configs.out_channels[9],
         strides=2,
         name="inverted_residual_block_7_",
@@ -103,6 +105,7 @@ def get_mobilevit_model(
         input_layer=x,
         num_blocks=configs.num_blocks[2],
         projection_dim=configs.projection_dims[2],
+        output_dim=configs.output_dims[2],
         patch_size=4,
     )
     x = conv_block(
